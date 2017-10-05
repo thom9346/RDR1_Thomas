@@ -1,21 +1,25 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Random;
+import java.util.*;
 
 public class Race {
 
     private AllDucks allDucks = new AllDucks();
-    private ArrayList<Queue<Integer>> arrayList = allDucks.generateDucks();
+    private int arraySize = 10; //note: arraySize = how many timesteps you wish to have.
+    private ArrayList<Queue<Integer>> arrayList = allDucks.generateDucks(arraySize);
     private int timeStep = 1;
-    private Queue<Integer> tempQueue = new LinkedList<>();
 
 
 
-public ArrayList<Queue<Integer>> resize(int arraySize){
 
+public ArrayList<Queue<Integer>> resize(){
+
+
+    boolean emptyArray = false;
+    int arrayIndex = 0;
+
+
+    /** Prints out current ducks*/
 int sizeOfTimestep = arraySize*arrayList.size();
 
     if (sizeOfTimestep!=1) {
@@ -32,18 +36,18 @@ int sizeOfTimestep = arraySize*arrayList.size();
     }
 
 
-    /**remove random queue from 1-10*/
         //gets random number thats equal to the indexes of the array
         Random random = new Random();
         int rdmNumber = random.nextInt(arrayList.size());
 
-        //removes the random index number from the array(the random queue)
-        arrayList.remove(rdmNumber);
-
 
         /**remove 1 duck from each queue*/
         for (int i = 0; i < arrayList.size(); i++) {
-            arrayList.get(i).remove();
+
+            if (!arrayList.get(i).isEmpty()) {
+                arrayList.get(i).remove();
+            }
+
         }
 
 
@@ -60,18 +64,38 @@ int sizeOfTimestep = arraySize*arrayList.size();
 
         }
 
-//        while (rdmNumber2==rdmNumber3) {
-//            rdmNumber2 = random.nextInt(arrayList.size());
-//        }
-
-        //makes sure the two random numbers cant be the same
 
         Integer rdmDuck = arrayList.get(rdmNumber2).peek();
-//tempQueue.add(rdmDuck);
-        //takes the new random index in the array and adds that duck there
+        Integer otherRdmDuck = arrayList.get(rdmNumber3).peek();
 
+
+
+        //takes the random queue from two different queues and basically swaps them
         arrayList.get(rdmNumber3).add(rdmDuck);
-        arrayList.get(rdmNumber2).remove();
+        arrayList.get(rdmNumber2).add(otherRdmDuck);
+
+        if (!arrayList.get(rdmNumber2).isEmpty()) {
+            arrayList.get(rdmNumber3).remove();
+            arrayList.get(rdmNumber2).remove();
+        }
+
+
+        /**remove random queue from 1-10*/
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (arrayList.get(i).isEmpty()) {
+                emptyArray = true;
+                arrayIndex = i;
+            }
+        }
+
+
+        if (emptyArray){
+            arrayList.remove(arrayIndex);
+        }
+        else
+            arrayList.remove(rdmNumber);
+
+
 
     //changes values
     arraySize = arraySize - 1;
@@ -79,13 +103,16 @@ int sizeOfTimestep = arraySize*arrayList.size();
     timeStep++;
 
 
-    return resize(arraySize);
+
+
+    return resize();
 
 
 }
 else {
-        System.out.println("And finally the winner duck: ");
-        System.out.println("Number: "+ arrayList.get(0).peek() + "!");
+
+        System.out.println("And finally the winner duck(Timestep " + timeStep + "):");
+        System.out.println("Number: "+ arrayList.toString() + "!");
         return arrayList;
     }
 

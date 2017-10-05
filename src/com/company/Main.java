@@ -6,16 +6,14 @@ import java.util.Queue;
 import java.util.Random;
 
 public class Main {
-    /**
-     * Dette program virker ikke 100% korrekt, men har brugt over 10 timer på det, og kan ikke få løst det. Synes det er værd at sende alligevel,
-     * så du kan se der faktisk er blevet brugt tid på det.
-     */
+
     public static void main(String[] args) {
 
+        //Note that only three of the classes in this project is being used. Main, Race and AllDucks. I included the other classes cause i might come back to this project and try to make it better
 
 
   Race race = new Race();
-  race.resize(10);
+  race.resize();
 
 //
 //
